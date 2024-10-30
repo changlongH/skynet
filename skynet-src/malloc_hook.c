@@ -261,6 +261,13 @@ skynet_posix_memalign(void **memptr, size_t alignment, size_t size) {
 	return err;
 }
 
+size_t
+skynet_malloc_usable_size(void *ptr) {
+	uint32_t cookie_size = get_cookie_size(ptr);
+	struct mem_cookie *p = (struct mem_cookie *)(ptr - cookie_size);
+	return p->size;
+}
+
 #else
 
 // for skynet_lalloc use
